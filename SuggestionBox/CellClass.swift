@@ -11,8 +11,10 @@ import UIKit
 
 class SuggestionCell: UITableViewCell {
     
+    @IBOutlet weak var snap: UIImageView!
     @IBOutlet weak var suggestionText: UILabel!
     
     @IBOutlet weak var likeCount: UILabel!
-    @IBOutlet weak var snapButton: UIButton!
+    
+    
 }

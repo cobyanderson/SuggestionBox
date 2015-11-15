@@ -69,27 +69,18 @@
                                     </mask>
                                 </variation>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="87" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="HF0-Ez-Eir">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="87" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="HF0-Ez-Eir">
                                 <rect key="frame" x="0.0" y="54" width="600" height="546"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="suggestionCell" rowHeight="87" id="oX6-o5-2KD" customClass="SuggestionCell" customModule="SnapBox" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="suggestionCell" rowHeight="87" id="oX6-o5-2KD" customClass="SuggestionCell" customModule="SnapBox" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="600" height="87"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="oX6-o5-2KD" id="iKL-ho-0B8">
+                                        <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clearsContextBeforeDrawing="NO" multipleTouchEnabled="YES" contentMode="center" tableViewCell="oX6-o5-2KD" id="iKL-ho-0B8">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="86.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rKH-Zm-N6c">
-                                                    <rect key="frame" x="552" y="23" width="40" height="40"/>
-                                                    <animations/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="40" id="81n-ML-JRS"/>
-                                                        <constraint firstAttribute="height" constant="40" id="cBL-ci-60P"/>
-                                                    </constraints>
-                                                    <state key="normal" image="snapUnactive"/>
-                                                </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="45" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sAI-Bm-PIF">
                                                     <rect key="frame" x="542" y="63" width="50" height="14.5"/>
                                                     <animations/>
@@ -97,33 +88,42 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This label is nothing" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dai-uZ-9uv">
-                                                    <rect key="frame" x="13" y="8" width="529" height="70.5"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="This label is nothing" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dai-uZ-9uv">
+                                                    <rect key="frame" x="13" y="8" width="529" height="18"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qy2-gD-G4g">
+                                                    <rect key="frame" x="547" y="23.5" width="40" height="40"/>
+                                                    <animations/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="40" id="9Z7-45-ZFI"/>
+                                                        <constraint firstAttribute="width" constant="40" id="shd-RN-ZtI"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <animations/>
                                             <constraints>
                                                 <constraint firstAttribute="bottomMargin" secondItem="Dai-uZ-9uv" secondAttribute="bottom" id="2ma-HN-qsN"/>
-                                                <constraint firstItem="rKH-Zm-N6c" firstAttribute="trailing" secondItem="iKL-ho-0B8" secondAttribute="trailingMargin" id="2sj-ms-9aU"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="Dai-uZ-9uv" secondAttribute="trailing" constant="50" id="39B-B0-ZbK"/>
                                                 <constraint firstItem="Dai-uZ-9uv" firstAttribute="top" secondItem="iKL-ho-0B8" secondAttribute="topMargin" id="6ig-SC-g9u"/>
-                                                <constraint firstItem="rKH-Zm-N6c" firstAttribute="top" relation="greaterThanOrEqual" secondItem="iKL-ho-0B8" secondAttribute="topMargin" constant="10" id="N7U-K6-rZk"/>
-                                                <constraint firstItem="sAI-Bm-PIF" firstAttribute="top" secondItem="rKH-Zm-N6c" secondAttribute="bottom" id="NiQ-26-Pva"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="qy2-gD-G4g" secondAttribute="trailing" constant="5" id="9dY-it-R60"/>
+                                                <constraint firstItem="sAI-Bm-PIF" firstAttribute="top" secondItem="qy2-gD-G4g" secondAttribute="bottom" id="DV5-Ec-J4v"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="sAI-Bm-PIF" secondAttribute="trailing" id="RRN-i7-yju"/>
                                                 <constraint firstItem="Dai-uZ-9uv" firstAttribute="leading" secondItem="iKL-ho-0B8" secondAttribute="leadingMargin" constant="5" id="S9Y-9y-pAd"/>
+                                                <constraint firstItem="qy2-gD-G4g" firstAttribute="top" relation="greaterThanOrEqual" secondItem="iKL-ho-0B8" secondAttribute="topMargin" constant="10" id="SYw-Te-jVG"/>
+                                                <constraint firstItem="qy2-gD-G4g" firstAttribute="leading" secondItem="Dai-uZ-9uv" secondAttribute="trailing" constant="5" id="T71-Op-HeJ"/>
+                                                <constraint firstItem="qy2-gD-G4g" firstAttribute="centerY" secondItem="iKL-ho-0B8" secondAttribute="centerY" id="aR8-bP-7P3"/>
                                                 <constraint firstItem="sAI-Bm-PIF" firstAttribute="leading" secondItem="Dai-uZ-9uv" secondAttribute="trailing" id="mz1-Iw-0kg"/>
-                                                <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="rKH-Zm-N6c" secondAttribute="bottom" constant="10" id="rPS-FQ-sqS"/>
-                                                <constraint firstItem="rKH-Zm-N6c" firstAttribute="centerY" secondItem="iKL-ho-0B8" secondAttribute="centerY" id="ttM-GZ-Yrx"/>
+                                                <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="qy2-gD-G4g" secondAttribute="bottom" constant="10" id="z0Y-vR-vSa"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <animations/>
                                         <connections>
                                             <outlet property="likeCount" destination="sAI-Bm-PIF" id="Cwa-kj-H9E"/>
-                                            <outlet property="snapButton" destination="rKH-Zm-N6c" id="lnQ-B1-ald"/>
+                                            <outlet property="snap" destination="qy2-gD-G4g" id="wNQ-Av-mOa"/>
                                             <outlet property="suggestionText" destination="Dai-uZ-9uv" id="Bqb-v4-Apf"/>
                                         </connections>
                                     </tableViewCell>
@@ -245,6 +245,7 @@
                     </view>
                     <connections>
                         <outlet property="cancel" destination="6kd-Ue-nED" id="vpP-Qu-4ZK"/>
+                        <outlet property="check" destination="ckJ-H0-C39" id="5yP-HK-TTj"/>
                         <outlet property="textView" destination="B9G-lt-ttw" id="2sQ-Hg-yxh"/>
                     </connections>
                 </viewController>
@@ -256,7 +257,6 @@
     <resources>
         <image name="Box" width="758" height="543"/>
         <image name="check" width="737" height="736"/>
-        <image name="snapUnactive" width="1055" height="1045"/>
         <image name="x" width="737" height="736"/>
     </resources>
 </document>

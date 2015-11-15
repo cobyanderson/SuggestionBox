@@ -166,6 +166,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         valueQuery.findObjectsInBackgroundWithBlock({ ( results:[PFObject]?, error: NSError?) -> Void in
             if results != nil {
                 self.suggestionList.removeAll()
+                self.suggestionSnapsList.removeAll()
                 for data in results! {
                     print (data)
                     
@@ -240,12 +241,52 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         cell = self.suggestionsTableView.dequeueReusableCellWithIdentifier("suggestionCell")! as? SuggestionCell
         cell?.suggestionText.text = self.suggestionList[indexPath.row]
         cell?.likeCount.text = (String(self.suggestionSnapsList[indexPath.row].count))
+        var image = UIImage(named: "snapUnactive")
+        if self.suggestionSnapsList[indexPath.row].contains(((PFUser.currentUser()!).objectId!)) {
+            image = UIImage(named: "snapActive")
+        }
+        cell?.snap.image = image
+        
     
         return cell!
     }
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.suggestionList.count
    
+    }
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        self.load()
+        let likeQuery = PFQuery(className: "Suggestions")
+        likeQuery.whereKey("text", equalTo: self.suggestionList[indexPath.row])
+        likeQuery.findObjectsInBackgroundWithBlock({ ( results:[PFObject]?, error: NSError?) -> Void in
+            var object: PFObject?
+            if error != nil {
+                self.logIn()
+            }
+            
+            if results?.count > 0  {
+                print (results?[0])
+                object = results![0]
+            }
+            else {
+                object = PFObject(className: "Suggestions")
+                object!.setValue("", forKey: "text")
+                
+            }
+            if self.suggestionSnapsList[indexPath.row].contains(((PFUser.currentUser()!).objectId!)) {
+                object!.removeObject(((PFUser.currentUser()!).objectId!), forKey: "usersThatSnapped")
+            }
+            else {
+                object!.addObject(((PFUser.currentUser()!).objectId!), forKey: "usersThatSnapped")
+            }
+            
+            object!.saveInBackgroundWithBlock({ (Bool, NSError) -> Void in
+                self.stopLoad()
+                self.suggestionsTableView.deselectRowAtIndexPath( indexPath, animated: true)
+                self.refresh()
+            })
+            }
+        )
     }
   
     @IBAction func newSuggestionPressed(sender: AnyObject) {

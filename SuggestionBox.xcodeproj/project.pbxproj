@@ -261,10 +261,10 @@
 				496AEA6D1BF82CDE00BA0477 /* AppDelegate.swift */,
 				496AEA6F1BF82CDE00BA0477 /* ViewController.swift */,
 				49212D931BF88E17000457D9 /* NewViewController.swift */,
+				49212D911BF85830000457D9 /* CellClass.swift */,
 				496AEA711BF82CDE00BA0477 /* Main.storyboard */,
 				496AEA741BF82CDE00BA0477 /* Assets.xcassets */,
 				496AEA761BF82CDE00BA0477 /* LaunchScreen.storyboard */,
-				49212D911BF85830000457D9 /* CellClass.swift */,
 				496AEA791BF82CDE00BA0477 /* Info.plist */,
 			);
 			path = SuggestionBox;
