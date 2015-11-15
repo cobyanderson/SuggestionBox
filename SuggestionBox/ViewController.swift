@@ -19,10 +19,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var suggestionList: [String] = []
     var suggestionSnapsList: [[String]] = []
     
-    var myLat: Double = 0.0
-    var myLon: Double = 0.0
+    var coordinates: [Double] = [0.0,0.0]
+
     
     let locationManager = CLLocationManager()
+    
+    var refreshControl:UIRefreshControl?
     
     let loadingView = UIView()
     let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.WhiteLarge)
@@ -50,6 +52,42 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.activityIndicator.stopAnimating()
         self.loadingView.removeFromSuperview()
         self.view.bringSubviewToFront(newSuggestion)
+    }
+    func refresh() {
+        self.setValues() { result in
+            if result == true {
+                self.refreshControl?.endRefreshing()
+                self.animateTable()
+            }
+        }
+        
+    }
+    func animateTable() {
+        
+        self.suggestionsTableView.reloadData()
+        
+        if self.suggestionList.count > 0 {
+            let cells = suggestionsTableView.visibleCells
+            let tableHeight: CGFloat = suggestionsTableView.bounds.size.height
+            
+            for i in cells {
+                let cell: UITableViewCell = i as! SuggestionCell
+                cell.transform = CGAffineTransformMakeTranslation(0, tableHeight)
+            }
+            
+            var index = 0
+            
+            for a in cells {
+                let cell: UITableViewCell = a as! SuggestionCell
+                UIView.animateWithDuration(1.5, delay: 0.05 * Double(index), usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: [], animations: {
+                    cell.transform = CGAffineTransformMakeTranslation(0, 0);
+                    }, completion: nil)
+                
+                index += 1
+                
+            }
+        }
+        
     }
     func logIn() {
         
@@ -109,17 +147,25 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func setValues(callback: Bool -> Void)  {
         self.locationManager.requestLocation()
         if let here = locationManager.location {
-            self.myLat = here.coordinate.latitude
-            self.myLon = here.coordinate.longitude
+          self.coordinates = [here.coordinate.latitude, here.coordinate.longitude]
             
         }
         else {
             print ("location services disabled")
         }
         let valueQuery = PFQuery(className: "Suggestions")
-        //valueQuery.whereKey("User", equalTo: PFUser.currentUser()!)
+        let userGeoPoint = PFGeoPoint(latitude: self.coordinates[0], longitude: self.coordinates[1])
+        
+        valueQuery.whereKey("location", nearGeoPoint:userGeoPoint, withinMiles: 0.1)
+        
+   
+        valueQuery.limit = 20
+        
+        valueQuery.orderByDescending("createdAt")
+        
         valueQuery.findObjectsInBackgroundWithBlock({ ( results:[PFObject]?, error: NSError?) -> Void in
             if results != nil {
+                self.suggestionList.removeAll()
                 for data in results! {
                     print (data)
                     
@@ -161,6 +207,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         locationManager.requestAlwaysAuthorization()
         
+        refreshControl = UIRefreshControl()
+        refreshControl!.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
+        self.suggestionsTableView.addSubview(refreshControl!)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("presentNewController:"), name: "ShowGameController", object: nil)
+        
       
 //        refreshControl = UIRefreshControl()
 //        refreshControl!.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
@@ -200,12 +252,32 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         locationManager.requestLocation()
         if let here = locationManager.location {
-            self.myLat = here.coordinate.latitude
-            self.myLon = here.coordinate.longitude
-        
+            self.coordinates = [here.coordinate.latitude, here.coordinate.longitude]
+            let viewController = self.storyboard!.instantiateViewControllerWithIdentifier("newViewController") as! newViewController
+            
+            viewController.lat = here.coordinate.latitude
+            viewController.lon = here.coordinate.longitude
+            
+            self.presentViewController(viewController, animated: true, completion: { () -> Void in
+            
+            })
         }
         else {
             print ("location services disabled")
+        }
+    }
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if let coordinates = sender as? [Double] {
+            if let destination = segue.destinationViewController as? newViewController {
+                destination.lat = coordinates[0]
+                destination.lon = coordinates[1]
+            }
+        }
+    }
+    
+    func presentNewController(notification: NSNotification) {
+        if let coordinates = notification.object as? [Double] {
+            self.performSegueWithIdentifier("segueToNew", sender: coordinates)
         }
     }
     
