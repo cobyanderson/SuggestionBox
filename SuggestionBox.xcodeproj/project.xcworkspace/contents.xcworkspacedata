@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:SuggestionBox.xcodeproj">
+      location = "self:/Users/samuelcobyanderson/Documents/SwiftProjects/SuggestionBox/SuggestionBox.xcodeproj">
    </FileRef>
 </Workspace>

@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "496AEA691BF82CDE00BA0477"
-               BuildableName = "SuggestionBox.app"
+               BuildableName = "SnapBox.app"
                BlueprintName = "SuggestionBox"
                ReferencedContainer = "container:SuggestionBox.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "496AEA7D1BF82CDE00BA0477"
-               BuildableName = "SuggestionBoxTests.xctest"
+               BuildableName = "SuggestionBox.xctest"
                BlueprintName = "SuggestionBoxTests"
                ReferencedContainer = "container:SuggestionBox.xcodeproj">
             </BuildableReference>
@@ -43,7 +43,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "496AEA881BF82CDE00BA0477"
-               BuildableName = "SuggestionBoxUITests.xctest"
+               BuildableName = "SuggestionBox.xctest"
                BlueprintName = "SuggestionBoxUITests"
                ReferencedContainer = "container:SuggestionBox.xcodeproj">
             </BuildableReference>
@@ -53,7 +53,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "496AEA691BF82CDE00BA0477"
-            BuildableName = "SuggestionBox.app"
+            BuildableName = "SnapBox.app"
             BlueprintName = "SuggestionBox"
             ReferencedContainer = "container:SuggestionBox.xcodeproj">
          </BuildableReference>
@@ -76,7 +76,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "496AEA691BF82CDE00BA0477"
-            BuildableName = "SuggestionBox.app"
+            BuildableName = "SnapBox.app"
             BlueprintName = "SuggestionBox"
             ReferencedContainer = "container:SuggestionBox.xcodeproj">
          </BuildableReference>
@@ -95,7 +95,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "496AEA691BF82CDE00BA0477"
-            BuildableName = "SuggestionBox.app"
+            BuildableName = "SnapBox.app"
             BlueprintName = "SuggestionBox"
             ReferencedContainer = "container:SuggestionBox.xcodeproj">
          </BuildableReference>
