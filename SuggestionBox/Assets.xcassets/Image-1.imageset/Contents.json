@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "Cancel-50.png",
+      "filename" : "snapbox.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "Cancel-51.png",
+      "filename" : "snapbox-1.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "Cancel-52.png",
+      "filename" : "snapbox-2.png",
       "scale" : "3x"
     }
   ],

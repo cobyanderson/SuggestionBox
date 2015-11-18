@@ -17,6 +17,8 @@ class newViewController: UIViewController {
     @IBOutlet weak var check: UIButton!
     @IBOutlet weak var textView: UITextView!
     
+    @IBOutlet weak var orangeView: UIView!
+    
     var lat: Double = 0
     var lon: Double = 0
     
@@ -28,8 +30,12 @@ class newViewController: UIViewController {
         self.cancel.hidden = false
         print (lat)
         print (lon)
+        
     }
     override func viewWillAppear(animated: Bool) {
+        textView.layer.cornerRadius = 10
+        orangeView.layer.cornerRadius = 10
+        
         let savedImage = UIImage(named: "check")
         self.savedView.image = savedImage
         self.savedView.contentMode = UIViewContentMode.ScaleAspectFit
@@ -43,7 +49,9 @@ class newViewController: UIViewController {
         }
     }
     @IBAction func checkPressed(sender: AnyObject) {
-        //if self.textView.text.rang
+       // if count(self.textView.text) > 300 {
+            
+       // }
         view.endEditing(true)
         self.cancel.hidden = true
         self.check.hidden = true
@@ -59,6 +67,7 @@ class newViewController: UIViewController {
             newSugg["text"] = self.textView.text
             newSugg["usersThatSnapped"] = []
             newSugg["location"] = PFGeoPoint(latitude: self.lat, longitude: self.lon)
+            newSugg["flag"] = []
             newSugg.saveInBackgroundWithBlock { (Bool, NSError) -> Void in
                 
                 self.savedView.animateTo()

@@ -20,6 +20,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var suggestionSnapsList: [[String]] = []
     
     var coordinates: [Double] = [0.0,0.0]
+    var parseSetMiles: Double = 0.1
+    var parseMessage: String = "These are SnapBox's only instructions, they will update when connected to the internet."
 
     
     let locationManager = CLLocationManager()
@@ -30,6 +32,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.WhiteLarge)
     
     override func viewWillAppear(animated: Bool) {
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateGUI", name: UIApplicationWillEnterForegroundNotification, object: UIApplication.sharedApplication())
+        
         self.loadingView.center = self.view.center
         self.loadingView.frame = self.view.frame
         self.loadingView.backgroundColor = UIColor.blackColor()
@@ -145,18 +150,34 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         })
     }
     func setValues(callback: Bool -> Void)  {
+        let mileQuery = PFQuery(className: "Miles")
+        mileQuery.findObjectsInBackgroundWithBlock({ ( results:[PFObject]?, error: NSError?) -> Void in
+            if results != nil {
+                for data in results! {
+                    if let theMiles = data["miles"] as? Double {
+                        self.parseSetMiles = theMiles
+                    }
+                    if let theMessage = data["message"] as? String {
+                        self.parseMessage = theMessage
+                    }
+                }
+            }
+            })
+    
+
+    
         self.locationManager.requestLocation()
         if let here = locationManager.location {
           self.coordinates = [here.coordinate.latitude, here.coordinate.longitude]
             
         }
         else {
-            print ("location services disabled")
+            locationWarning()
         }
         let valueQuery = PFQuery(className: "Suggestions")
         let userGeoPoint = PFGeoPoint(latitude: self.coordinates[0], longitude: self.coordinates[1])
         
-        valueQuery.whereKey("location", nearGeoPoint:userGeoPoint, withinMiles: 0.1)
+        valueQuery.whereKey("location", nearGeoPoint:userGeoPoint, withinMiles: self.parseSetMiles)
         
    
         valueQuery.limit = 20
@@ -226,10 +247,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         // Dispose of any resources that can be recreated.
     }
     @IBAction func infoButtonPressed(sender: AnyObject) {
-        let howMessage = "Snap Box lets you leave suggestions or interesting comments about the space in your proximity. Your feed will show comments others left 500 feet around your current location. If you agree with something, just snap it to let others know. Snap Box will never share any of your personal details with other users. If you see something offensive or inappropriate, please flag that suggestion. Happy Snap Boxing. Snap Box was created by Coby Anderson and Adrian Goedeckemeyer in November 2015."
+        let howMessage = self.parseMessage
         let alert = UIAlertController(title: "How it Works", message: howMessage, preferredStyle: UIAlertControllerStyle.Alert)
         let yesAction = UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default) { (UIAlertAction) -> Void in
-            //self.pickerView.selectRow(<#T##row: Int##Int#>, inComponent: <#T##Int#>, animated: <#T##Bool#>)
+          
         }
         alert.addAction(yesAction)
         self.presentViewController(alert, animated: true, completion: { () -> Void in
@@ -237,6 +258,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         })
     }
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        if self.suggestionList.count == 0 {
+            var emptyCell: SadCell?
+            emptyCell = self.suggestionsTableView.dequeueReusableCellWithIdentifier("sadCell") as? SadCell
+            
+            return emptyCell!
+        }
+        
         var cell: SuggestionCell?
         cell = self.suggestionsTableView.dequeueReusableCellWithIdentifier("suggestionCell")! as? SuggestionCell
         cell?.suggestionText.text = self.suggestionList[indexPath.row]
@@ -244,15 +272,19 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         var image = UIImage(named: "snapUnactive")
         if self.suggestionSnapsList[indexPath.row].contains(((PFUser.currentUser()!).objectId!)) {
             image = UIImage(named: "snapActive")
-        }
+            }
+    
         cell?.snap.image = image
-        
+    
     
         return cell!
     }
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if self.suggestionList.count == 0 {
+            return 1
+        }
         return self.suggestionList.count
-   
+        
     }
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         self.load()
@@ -304,7 +336,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             })
         }
         else {
-            print ("location services disabled")
+          locationWarning()
         }
     }
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -323,19 +355,109 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-      //  let x = locations[0]
-       
-//        self.myLat = x.coordinate.latitude
-//        self.myLon = x.coordinate.longitude
-
         
     }
+    
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
-        print ("error")
+        locationWarning()
+        
+    }
+    func locationWarning() {
+        let howMessage = "Please make sure you are connected to the internet and that Snapbox has permission to access your location."
+        let alert = UIAlertController(title: "Could not retrieve location", message: howMessage, preferredStyle: UIAlertControllerStyle.Alert)
+        let yesAction = UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default) { (UIAlertAction) -> Void in
+            
+        }
+        alert.addAction(yesAction)
+        self.presentViewController(alert, animated: true, completion: { () -> Void in
+            
+        })
+    }
+    func updateGUI() {
+        logIn()
+    }
+    func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
+        
+        let deleteButton = UITableViewRowAction(style: .Default, title: "Flag", handler: { (action, indexPath) in
+            self.suggestionsTableView.dataSource?.tableView?(
+                self.suggestionsTableView,
+                commitEditingStyle: .Delete,
+                forRowAtIndexPath: indexPath
+            )
+            return
+        })
+
+        deleteButton.backgroundColor = UIColor(red: 250/255, green: 43/255, blue: 86/255, alpha: 0.9)
+
+        
+        return [deleteButton]
     }
     
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == UITableViewCellEditingStyle.Delete {
+            let alert = UIAlertController(title: "Flag this suggestion?", message: "After three flags this suggestion will be deleted", preferredStyle: UIAlertControllerStyle.Alert)
+            let yesAction = UIAlertAction(title: "Flag", style: UIAlertActionStyle.Default) { (UIAlertAction) -> Void in
+                self.flag(indexPath.row)
+            }
+            let noAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) {
+                (UIAlertAction) -> Void in
+            }
+            alert.addAction(yesAction)
+            alert.addAction(noAction)
+            self.presentViewController(alert, animated: true, completion: { () -> Void in
+                
+            })
     
-
+    
+        }
+    }
+    func flag(deleteIndex : Int) {
+        
+        self.load()
+        
+        let valueQuery = PFQuery(className: "Suggestions")
+        valueQuery.whereKey("text", equalTo: self.suggestionList[deleteIndex])
+        valueQuery.findObjectsInBackgroundWithBlock({ ( results:[PFObject]?, error: NSError?) -> Void in
+            if results != nil {
+                for data in results! {
+                    if let flaggedData = data["flag"] as? [String] {
+                        if flaggedData.contains(((PFUser.currentUser()!).objectId!)) {
+                            data.removeObject(((PFUser.currentUser()!).objectId!), forKey: "flag")
+                        }
+                            
+                        else {
+                            data.addObject(((PFUser.currentUser()!).objectId!), forKey: "flag")
+                        }
+                        
+                        
+                        if flaggedData.count > 3 {
+                            data.deleteInBackgroundWithBlock({ (Bool, error) -> Void in
+                                self.stopLoad()
+                                if error != nil {
+                                    self.logIn()
+                                }
+                                else {
+                                    self.refresh()
+                                }
+                            })
+                        }
+                        else {
+                            data.saveInBackgroundWithBlock({ (Bool, error) -> Void in
+                                self.stopLoad()
+                                if error != nil {
+                                    self.logIn()
+                                }
+                                else {
+                                    self.refresh()
+                                }
+                            })
+                        }
+                        
+                    }
+                }
+            }
+        })
+    }
 
 }
 

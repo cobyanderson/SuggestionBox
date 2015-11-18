@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "Cancel-50.png",
+      "filename" : "donebox.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "Cancel-51.png",
+      "filename" : "donebox-1.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "Cancel-52.png",
+      "filename" : "donebox-2.png",
       "scale" : "3x"
     }
   ],

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import QuartzCore
 import UIKit
 
 class SuggestionCell: UITableViewCell {
@@ -16,5 +17,8 @@ class SuggestionCell: UITableViewCell {
     
     @IBOutlet weak var likeCount: UILabel!
     
+    
+}
+class SadCell: UITableViewCell {
     
 }
