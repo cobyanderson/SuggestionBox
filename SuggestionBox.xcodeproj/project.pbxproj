@@ -356,7 +356,7 @@
 				TargetAttributes = {
 					496AEA691BF82CDE00BA0477 = {
 						CreatedOnToolsVersion = 7.1.1;
-						DevelopmentTeam = D6C7YNZ89Q;
+						DevelopmentTeam = 2HGUCN7E3U;
 					};
 					496AEA7D1BF82CDE00BA0477 = {
 						CreatedOnToolsVersion = 7.1.1;
@@ -601,6 +601,7 @@
 					"$(PROJECT_DIR)/Frameworks",
 				);
 				INFOPLIST_FILE = SuggestionBox/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.coby.SuggestionBox;
 				PRODUCT_NAME = SnapBox;
@@ -620,6 +621,7 @@
 					"$(PROJECT_DIR)/Frameworks",
 				);
 				INFOPLIST_FILE = SuggestionBox/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.coby.SuggestionBox;
 				PRODUCT_NAME = SnapBox;

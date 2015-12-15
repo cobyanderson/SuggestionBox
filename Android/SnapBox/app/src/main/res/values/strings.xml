@@ -2,4 +2,5 @@
     <string name="app_name">SnapBox</string>
     <string name="action_settings">Info</string>
     <string name="title_activity_add_suggestion">Add Suggestion</string>
+    <string name="parseMessage">These are SnapBox\'s only instructions, they will update when connected to the internet.</string>
 </resources>
