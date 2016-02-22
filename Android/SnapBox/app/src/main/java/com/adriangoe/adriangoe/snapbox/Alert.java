@@ -1,4 +1,4 @@
-package com.example.adriangoe.snapbox;
+package com.adriangoe.adriangoe.snapbox;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

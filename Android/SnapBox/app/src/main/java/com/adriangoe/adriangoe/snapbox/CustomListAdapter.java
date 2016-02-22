@@ -1,4 +1,4 @@
-package com.example.adriangoe.snapbox;
+package com.adriangoe.adriangoe.snapbox;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
